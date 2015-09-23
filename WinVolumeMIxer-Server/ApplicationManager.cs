@@ -8,6 +8,7 @@ using Microsoft.Owin.Hosting;
 using System.Windows.Controls;
 using Hardcodet.Wpf.TaskbarNotification;
 using WinVolumeMixer.Server.Properties;
+using NetFwTypeLib;
 
 namespace WinVolumeMixer.Server
 {
@@ -16,6 +17,12 @@ namespace WinVolumeMixer.Server
         private static ApplicationManager instance = new ApplicationManager();
 
         private List<Application> applications = new List<Application>();
+
+        public void OpenSettings()
+        {
+            SettingsWindow settings = new SettingsWindow();
+            settings.ShowDialog();
+        }
 
         IDisposable webAppDisposible;
 
@@ -27,7 +34,21 @@ namespace WinVolumeMixer.Server
         public void StartWebApp()
         {
             UpdateApplications();
-            webAppDisposible = WebApp.Start<Startup>(url: "http://localhost:9000/");
+
+            INetFwRule firewallRule = (INetFwRule)Activator.CreateInstance(
+                         Type.GetTypeFromProgID("HNetCfg.FWRule"));
+            firewallRule.Action = NET_FW_ACTION_.NET_FW_ACTION_ALLOW;
+            firewallRule.Description = "Used to allow local network to connect to WinVolumeMixer Server";
+            firewallRule.Direction = NET_FW_RULE_DIRECTION_.NET_FW_RULE_DIR_IN;
+            firewallRule.Enabled = true;
+            firewallRule.InterfaceTypes = "All";
+            firewallRule.Name = "WinVolumeMixer Server";
+
+            INetFwPolicy2 firewallPolicy = (INetFwPolicy2)Activator.CreateInstance(
+            Type.GetTypeFromProgID("HNetCfg.FwPolicy2"));
+            firewallPolicy.Rules.Add(firewallRule);
+
+            webAppDisposible = WebApp.Start<Startup>(url: "http://*:" + Settings.Default.Port + "/");
 
 
             GetMenuItem("menuStart").IsEnabled = false;

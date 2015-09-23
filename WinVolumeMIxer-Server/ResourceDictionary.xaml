@@ -5,6 +5,7 @@
 
     <local:StartCommand x:Key="StartCommand" />
     <local:StopCommand x:Key="StopCommand" />
+    <local:SettingsCommand x:Key="SettingsCommand" />
     <local:ExitCommand x:Key="ExitCommand" />
 
     <tb:TaskbarIcon x:Key="MyNotifyIcon" x:Name="test"
@@ -15,6 +16,7 @@
             <ContextMenu>
                 <MenuItem x:Name="menuStart" Header="Start" Command="{StaticResource StartCommand}" />
                 <MenuItem x:Name="menuStop"  Header="Stop" Command="{StaticResource StopCommand}"  />
+                <MenuItem x:Name="menuSettings"  Header="Settings" Command="{StaticResource SettingsCommand}"  />
                 <MenuItem x:Name="menuExit"  Header="Exit" Command="{StaticResource ExitCommand}" />
             </ContextMenu>
         </tb:TaskbarIcon.ContextMenu>

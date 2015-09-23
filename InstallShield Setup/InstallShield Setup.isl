@@ -2578,6 +2578,7 @@
 		<col def="I2">Order</col>
 		<col def="I2">ISSetupLocation</col>
 		<col def="S255">ISReleaseFlags</col>
+		<row><td>_D421DBF4_0734_4540_877D_20E4D2A942EC_</td><td>Microsoft .NET Framework 4.5 Full.prq</td><td/><td>2</td><td/></row>
 	</table>
 
 	<table name="ISSetupType">
